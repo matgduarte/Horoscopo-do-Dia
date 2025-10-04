@@ -2,1001 +2,1016 @@
 <html lang="pt-BR">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>horóscopo do Dia</title>
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="/favecon.jpg" />
-  
-  <!-- Open Graph / Thumbnail (preview em WhatsApp, Discord, etc.) -->
-  <meta property="og:title" content="🔮 horóscopo do Dia 🔮" />
-  <meta property="og:description" content="Seu destino escrito nas estrelas... mas bêbadas." />
-  <meta property="og:image" content="https://matgduarte.github.io/horoscopo-do-Dia/thumb.png" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://matgduarte.github.io/horoscopo-do-Dia/" />
-  
-  <!-- Twitter Card (pra ficar bonito no Twitter/X também) -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="🔮 horóscopo do Dia 🔮" />
-  <meta name="twitter:description" content="Seu destino escrito nas estrelas... mas bêbadas." />
-  <meta name="twitter:image" content="https://matgduarte.github.io/horoscopo-do-Dia/thumb.png" />
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Comic+Neue:wght@400;700&display=swap"
-    rel="stylesheet">
-  <style>
-    /* --- Design System & Variáveis --- */
-    :root {
-      --roxo-escuro: #15002B;
-      --rosa-neon: #FF00CC;
-      --lilas: #C770FF;
-      --ciano-eletrico: #00FFFF;
-      --azul-eletrico: #0099FF;
-      --verde-limao: #BFFF00;
-      --branco: #FFFFFF;
-      --fonte-titulo: 'Press Start 2P', cursive;
-      --fonte-corpo: 'Comic Neue', cursive;
-    }
-
-    /* --- Estrutura Geral e Animações de Fundo --- */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      background: linear-gradient(45deg, var(--roxo-escuro), #2a003f, #0b001c);
-      color: var(--branco);
-      font-family: var(--fonte-corpo);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    body::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image:
-        radial-gradient(2px 2px at 20% 30%, white, transparent),
-        radial-gradient(2px 2px at 60% 70%, white, transparent),
-        radial-gradient(1px 1px at 50% 50%, white, transparent),
-        radial-gradient(1px 1px at 80% 10%, white, transparent),
-        radial-gradient(2px 2px at 90% 60%, white, transparent);
-      background-size: 300px 300px;
-      animation: piscarEstrelas 6s infinite;
-      opacity: 0.5;
-    }
-
-    @keyframes piscarEstrelas {
-
-      0%,
-      100% {
-        opacity: 0.3;
-      }
-
-      50% {
-        opacity: 0.9;
-      }
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    header {
-      text-align: center;
-      padding: 40px 20px 20px;
-      z-index: 1;
-    }
-
-    h1 {
-      font-family: var(--fonte-titulo);
-      font-size: clamp(1.5rem, 5vw, 2.5rem);
-      color: var(--rosa-neon);
-      text-shadow: 0 0 10px var(--rosa-neon), 0 0 20px var(--lilas), 0 0 30px var(--lilas);
-      animation: glow 1.5s infinite alternate;
-      margin-bottom: 10px;
-    }
-
-    @keyframes glow {
-      from {
-        text-shadow: 0 0 10px var(--rosa-neon), 0 0 20px var(--lilas);
-      }
-
-      to {
-        text-shadow: 0 0 20px var(--lilas), 0 0 30px var(--ciano-eletrico);
-      }
-    }
-
-    header p {
-      font-size: 1.2rem;
-      color: var(--ciano-eletrico);
-      text-shadow: 0 0 5px var(--ciano-eletrico);
-    }
-
-    main {
-      flex-grow: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      z-index: 1;
-      padding: 20px;
-    }
-
-    .astro-card {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 0 30px var(--lilas), 0 0 60px var(--rosa-neon);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      width: 100%;
-      max-width: 500px;
-      transition: transform 0.4s ease;
-    }
-
-    .astro-card.tremer {
-      animation: tremer 0.5s;
-    }
-
-    @keyframes tremer {
-
-      0%,
-      100% {
-        transform: translateX(0);
-      }
-
-      25% {
-        transform: translateX(-5px) rotate(-1deg);
-      }
-
-      75% {
-        transform: translateX(5px) rotate(1deg);
-      }
-    }
-
-    select,
-    button {
-      width: 100%;
-      padding: 15px;
-      margin: 10px 0;
-      font-family: var(--fonte-corpo);
-      font-size: 1.1rem;
-      font-weight: bold;
-      border-radius: 10px;
-      border: 2px solid transparent;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    /* Select Customizado - NOVO */
-    .custom-select-container {
-      position: relative;
-      width: 100%;
-      margin: 10px 0;
-    }
-
-    .custom-select-trigger {
-      width: 100%;
-      padding: 15px;
-      font-family: var(--fonte-corpo);
-      font-size: 1.1rem;
-      font-weight: bold;
-      border-radius: 10px;
-      border: 2px solid var(--ciano-eletrico);
-      background-color: rgba(0, 0, 0, 0.4);
-      color: var(--branco);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .custom-select-trigger::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
-      transition: left 0.5s;
-    }
-
-    .custom-select-trigger:hover::before {
-      left: 100%;
-    }
-
-    .custom-select-trigger:hover {
-      box-shadow: 0 0 10px var(--ciano-eletrico);
-      border-color: var(--rosa-neon);
-    }
-
-    .custom-select-trigger.active {
-      border-color: var(--rosa-neon);
-      box-shadow: 0 0 15px var(--rosa-neon);
-    }
-
-    .custom-select-arrow {
-      width: 0;
-      height: 0;
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-      border-top: 8px solid var(--ciano-eletrico);
-      transition: transform 0.3s ease;
-    }
-
-    .custom-select-trigger.active .custom-select-arrow {
-      transform: rotate(180deg);
-      border-top-color: var(--rosa-neon);
-    }
-
-    .custom-options {
-      position: absolute;
-      top: calc(100% + 5px);
-      left: 0;
-      width: 100%;
-      background: rgba(21, 0, 43, 0.95);
-      border: 2px solid var(--lilas);
-      border-radius: 10px;
-      box-shadow: 0 0 20px var(--lilas);
-      z-index: 10;
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
-      transition: all 0.3s ease;
-    }
-
-    .custom-options.show {
-      max-height: 300px;
-      overflow-y: auto;
-      opacity: 1;
-    }
-
-    .custom-option {
-      padding: 12px 15px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .custom-option:last-child {
-      border-bottom: none;
-    }
-
-    .custom-option:hover {
-      background: rgba(199, 112, 255, 0.2);
-      padding-left: 20px;
-    }
-
-    .custom-option.selected {
-      background: rgba(255, 0, 204, 0.2);
-      color: var(--rosa-neon);
-      font-weight: bold;
-    }
-
-    .custom-option.selected::after {
-      content: ' ✓';
-      color: var(--rosa-neon);
-    }
-
-    /* Scrollbar personalizada para o select */
-    .custom-options::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    .custom-options::-webkit-scrollbar-track {
-      background: var(--roxo-escuro);
-      border-radius: 10px;
-    }
-
-    .custom-options::-webkit-scrollbar-thumb {
-      background: var(--lilas);
-      border-radius: 10px;
-    }
-
-    .custom-options::-webkit-scrollbar-thumb:hover {
-      background: var(--rosa-neon);
-    }
-
-    /* Esconder o select original */
-    .hidden-select {
-      display: none;
-    }
-
-    button {
-      color: var(--branco);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .btn-primary {
-      background: linear-gradient(45deg, var(--azul-eletrico), var(--ciano-eletrico));
-      box-shadow: 0 4px 15px var(--ciano-eletrico);
-    }
-
-    .btn-primary:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 20px var(--ciano-eletrico);
-    }
-
-    .btn-secondary {
-      background: linear-gradient(45deg, var(--verde-limao), #7FFF00);
-      box-shadow: 0 4px 15px var(--verde-limao);
-    }
-
-    .btn-secondary:hover {
-      transform: scale(1.05) rotate(2deg);
-      box-shadow: 0 6px 20px var(--verde-limao);
-    }
-
-    .btn-share {
-      background: linear-gradient(45deg, #25D366, #128C7E);
-      box-shadow: 0 4px 15px #25D366;
-    }
-
-    .btn-share:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 20px #25D366;
-    }
-
-    .btn-whatsapp {
-      background: linear-gradient(45deg, #25D366, #128C7E);
-      box-shadow: 0 4px 15px #25D366;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .btn-whatsapp:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 20px #25D366;
-    }
-
-    .btn-whatsapp svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    #resultado {
-      margin-top: 20px;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 15px;
-      font-size: 1.2rem;
-      min-height: 100px;
-      word-wrap: break-word;
-      text-align: left;
-      white-space: pre-wrap;
-      border-left: 4px solid var(--rosa-neon);
-      animation: fadeIn 0.5s;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .ranking-container {
-      margin-top: 20px;
-      text-align: center;
-    }
-
-    .ranking-btn {
-      background: transparent;
-      border: 2px dashed var(--rosa-neon);
-      color: var(--rosa-neon);
-      font-size: 0.9rem;
-      box-shadow: none;
-    }
-
-    .ranking-btn:hover {
-      background: var(--rosa-neon);
-      color: var(--roxo-escuro);
-    }
-
-    #mensagemPreguica {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: var(--roxo-escuro);
-      border: 3px solid var(--verde-limao);
-      padding: 30px;
-      border-radius: 15px;
-      z-index: 1000;
-      box-shadow: 0 0 30px var(--verde-limao);
-      text-align: center;
-      max-width: 400px;
-    }
-
-    #mensagemPreguica h3 {
-      color: var(--verde-limao);
-      margin-bottom: 15px;
-      font-family: var(--fonte-titulo);
-      font-size: 1rem;
-    }
-
-    #mensagemPreguica p {
-      margin-bottom: 20px;
-    }
-
-    #mensagemPreguica button {
-      background: var(--verde-limao);
-      color: var(--roxo-escuro);
-      width: auto;
-      padding: 10px 20px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 0.9rem;
-      color: rgba(255, 255, 255, 0.6);
-      z-index: 1;
-    }
-
-    footer .links {
-      color: var(--ciano-eletrico);
-      text-decoration: none;
-      margin: 0 10px;
-    }
-
-    footer .links:hover {
-      text-decoration: underline;
-    }
-
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 1.5rem;
-      }
-
-      .astro-card {
-        padding: 20px;
-      }
-
-      select,
-      button {
-        font-size: 1rem;
-      }
-
-      #resultado {
-        font-size: 1rem;
-      }
-    }
-
-    @media (max-width: 700px) {
-
-      #mensagemPreguica {
-        width: 90%;
-        max-width: none;
-
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>horóscopo do Dia</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favecon.jpg" />
+    <link rel="shortcut icon" href="/favecon.jpg" type="image/x-icon">
+
+    <!-- Open Graph / Thumbnail (preview em WhatsApp, Discord, etc.) -->
+    <meta property="og:title" content="🔮 horóscopo do Dia 🔮" />
+    <meta property="og:description" content="Seu destino escrito nas estrelas... mas bêbadas." />
+    <meta property="og:image" content="https://matgduarte.github.io/horoscopo-do-Dia/thumb.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://matgduarte.github.io/horoscopo-do-Dia/" />
+
+    <!-- Twitter Card (pra ficar bonito no Twitter/X também) -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="🔮 horóscopo do Dia 🔮" />
+    <meta name="twitter:description" content="Seu destino escrito nas estrelas... mas bêbadas." />
+    <meta name="twitter:image" content="https://matgduarte.github.io/horoscopo-do-Dia/thumb.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Comic+Neue:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* --- Design System & Variáveis --- */
+        :root {
+            --roxo-escuro: #15002B;
+            --rosa-neon: #FF00CC;
+            --lilas: #C770FF;
+            --ciano-eletrico: #00FFFF;
+            --azul-eletrico: #0099FF;
+            --verde-limao: #BFFF00;
+            --branco: #FFFFFF;
+            --fonte-titulo: 'Press Start 2P', cursive;
+            --fonte-corpo: 'Comic Neue', cursive;
+        }
+
+        /* --- Estrutura Geral e Animações de Fundo --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(45deg, var(--roxo-escuro), #2a003f, #0b001c);
+            color: var(--branco);
+            font-family: var(--fonte-corpo);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(2px 2px at 20% 30%, white, transparent),
+                radial-gradient(2px 2px at 60% 70%, white, transparent),
+                radial-gradient(1px 1px at 50% 50%, white, transparent),
+                radial-gradient(1px 1px at 80% 10%, white, transparent),
+                radial-gradient(2px 2px at 90% 60%, white, transparent);
+            background-size: 300px 300px;
+            animation: piscarEstrelas 6s infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes piscarEstrelas {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 0.9;
+            }
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px 20px;
+            z-index: 1;
+        }
+
+        h1 {
+            font-family: var(--fonte-titulo);
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            color: var(--rosa-neon);
+            text-shadow: 0 0 10px var(--rosa-neon), 0 0 20px var(--lilas), 0 0 30px var(--lilas);
+            animation: glow 1.5s infinite alternate;
+            margin-bottom: 10px;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px var(--rosa-neon), 0 0 20px var(--lilas);
+            }
+
+            to {
+                text-shadow: 0 0 20px var(--lilas), 0 0 30px var(--ciano-eletrico);
+            }
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: var(--ciano-eletrico);
+            text-shadow: 0 0 5px var(--ciano-eletrico);
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            z-index: 1;
+            padding: 20px;
+        }
+
+        .astro-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 30px var(--lilas), 0 0 60px var(--rosa-neon);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 100%;
+            max-width: 500px;
+            transition: transform 0.4s ease;
+        }
+
+        .astro-card.tremer {
+            animation: tremer 0.5s;
+        }
+
+        @keyframes tremer {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px) rotate(-1deg);
+            }
+
+            75% {
+                transform: translateX(5px) rotate(1deg);
+            }
+        }
+
+        select,
+        button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: var(--fonte-corpo);
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        /* Select Customizado - NOVO */
+        .custom-select-container {
+            position: relative;
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .custom-select-trigger {
+            width: 100%;
+            padding: 15px;
+            font-family: var(--fonte-corpo);
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 10px;
+            border: 2px solid var(--ciano-eletrico);
+            background-color: rgba(0, 0, 0, 0.4);
+            color: var(--branco);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .custom-select-trigger::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .custom-select-trigger:hover::before {
+            left: 100%;
+        }
+
+        .custom-select-trigger:hover {
+            box-shadow: 0 0 10px var(--ciano-eletrico);
+            border-color: var(--rosa-neon);
+        }
+
+        .custom-select-trigger.active {
+            border-color: var(--rosa-neon);
+            box-shadow: 0 0 15px var(--rosa-neon);
+        }
+
+        .custom-select-arrow {
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 8px solid var(--ciano-eletrico);
+            transition: transform 0.3s ease;
+        }
+
+        .custom-select-trigger.active .custom-select-arrow {
+            transform: rotate(180deg);
+            border-top-color: var(--rosa-neon);
+        }
+
+        .custom-options {
+            position: absolute;
+            top: calc(100% + 5px);
+            left: 0;
+            width: 100%;
+            background: rgba(21, 0, 43, 0.95);
+            border: 2px solid var(--lilas);
+            border-radius: 10px;
+            box-shadow: 0 0 20px var(--lilas);
+            z-index: 10;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .custom-options.show {
+            max-height: 300px;
+            overflow-y: auto;
+            opacity: 1;
+        }
+
+        .custom-option {
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .custom-option:last-child {
+            border-bottom: none;
+        }
+
+        .custom-option:hover {
+            background: rgba(199, 112, 255, 0.2);
+            padding-left: 20px;
+        }
+
+        .custom-option.selected {
+            background: rgba(255, 0, 204, 0.2);
+            color: var(--rosa-neon);
+            font-weight: bold;
+        }
+
+        .custom-option.selected::after {
+            content: ' ✓';
+            color: var(--rosa-neon);
+        }
+
+        /* Scrollbar personalizada para o select */
+        .custom-options::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .custom-options::-webkit-scrollbar-track {
+            background: var(--roxo-escuro);
+            border-radius: 10px;
+        }
+
+        .custom-options::-webkit-scrollbar-thumb {
+            background: var(--lilas);
+            border-radius: 10px;
+        }
+
+        .custom-options::-webkit-scrollbar-thumb:hover {
+            background: var(--rosa-neon);
+        }
+
+        /* Esconder o select original */
+        .hidden-select {
+            display: none;
+        }
+
+        button {
+            color: var(--branco);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--azul-eletrico), var(--ciano-eletrico));
+            box-shadow: 0 4px 15px var(--ciano-eletrico);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px var(--ciano-eletrico);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, var(--verde-limao), #7FFF00);
+            box-shadow: 0 4px 15px var(--verde-limao);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 6px 20px var(--verde-limao);
+        }
+
+        .btn-share {
+            background: linear-gradient(45deg, #25D366, #128C7E);
+            box-shadow: 0 4px 15px #25D366;
+        }
+
+        .btn-share:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px #25D366;
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(45deg, #25D366, #128C7E);
+            box-shadow: 0 4px 15px #25D366;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-whatsapp:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px #25D366;
+        }
+
+        .btn-whatsapp svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        #resultado {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            font-size: 1.2rem;
+            min-height: 100px;
+            word-wrap: break-word;
+            text-align: left;
+            white-space: pre-wrap;
+            border-left: 4px solid var(--rosa-neon);
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .ranking-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .ranking-btn {
+            background: transparent;
+            border: 2px dashed var(--rosa-neon);
+            color: var(--rosa-neon);
+            font-size: 0.9rem;
+            box-shadow: none;
+        }
+
+        .ranking-btn:hover {
+            background: var(--rosa-neon);
+            color: var(--roxo-escuro);
+        }
+
+        #mensagemPreguica {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--roxo-escuro);
+            border: 3px solid var(--verde-limao);
+            padding: 30px;
+            border-radius: 15px;
+            z-index: 1000;
+            box-shadow: 0 0 30px var(--verde-limao);
+            text-align: center;
+            max-width: 400px;
+        }
+
+        #mensagemPreguica h3 {
+            color: var(--verde-limao);
+            margin-bottom: 15px;
+            font-family: var(--fonte-titulo);
+            font-size: 1rem;
+        }
+
+        #mensagemPreguica p {
+            margin-bottom: 20px;
+        }
+
+        #mensagemPreguica button {
+            background: var(--verde-limao);
+            color: var(--roxo-escuro);
+            width: auto;
+            padding: 10px 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            z-index: 1;
+        }
+
+        footer .links {
+            color: var(--ciano-eletrico);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        footer .links:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .astro-card {
+                padding: 20px;
+            }
+
+            select,
+            button {
+                font-size: 1rem;
+            }
+
+            #resultado {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            #mensagemPreguica {
+                width: 90%;
+                max-width: none;
+
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-  <header>
-    <h1>🔮 horóscopo do Dia 🔮</h1>
-    <p>Seu destino escrito nas estrelas... mas bêbadas.</p>
-  </header>
+    <header>
+        <h1>🔮 horóscopo do Dia 🔮</h1>
+        <p>Seu destino escrito nas estrelas... mas bêbadas.</p>
+    </header>
 
-  <main>
-    <section class="astro-card" id="astroCard">
-      <!-- Select Customizado -->
-      <div class="custom-select-container">
-        <div class="custom-select-trigger" id="customSelectTrigger">
-          <span id="selectedOption">Escolha seu signo</span>
-          <div class="custom-select-arrow"></div>
+    <main>
+        <section class="astro-card" id="astroCard">
+            <!-- Select Customizado -->
+            <div class="custom-select-container">
+                <div class="custom-select-trigger" id="customSelectTrigger">
+                    <span id="selectedOption">Escolha seu signo</span>
+                    <div class="custom-select-arrow"></div>
+                </div>
+                <div class="custom-options" id="customOptions">
+                    <div class="custom-option" data-value="">Escolha seu signo</div>
+                    <div class="custom-option" data-value="Áries - com raiva de tudo até do almoço">Áries - com raiva de
+                        tudo até
+                        do almoço</div>
+                    <div class="custom-option" data-value="Touro - querendo comer o vizinho">Touro - querendo comer o
+                        vizinho
+                    </div>
+                    <div class="custom-option" data-value="Gêmeos - brigando consigo mesmo no zap">Gêmeos - brigando
+                        consigo mesmo
+                        no zap</div>
+                    <div class="custom-option" data-value="Câncer - chorando porque o Wi-Fi caiu">Câncer - chorando
+                        porque o Wi-Fi
+                        caiu</div>
+                    <div class="custom-option" data-value="Leão - se acha o rei do pix">Leão - se acha o rei do pix
+                    </div>
+                    <div class="custom-option" data-value="Virgem - organizando a desgraça toda">Virgem - organizando a
+                        desgraça
+                        toda</div>
+                    <div class="custom-option" data-value="Libra - decidindo se chora ou se dança">Libra - decidindo se
+                        chora ou
+                        se dança</div>
+                    <div class="custom-option" data-value="Escorpião - pesquisando o ex do crush">Escorpião -
+                        pesquisando o ex do
+                        crush</div>
+                    <div class="custom-option" data-value="Sagitário - sumiu no rolê de novo">Sagitário - sumiu no rolê
+                        de novo
+                    </div>
+                    <div class="custom-option" data-value="Capricórnio - falando que 'no meu tempo'">Capricórnio -
+                        falando que "no
+                        meu tempo"</div>
+                    <div class="custom-option" data-value="Aquário - achando que entende de política">Aquário - achando
+                        que
+                        entende de política</div>
+                    <div class="custom-option" data-value="Peixes - viajando na maionese mesmo sóbrio">Peixes - viajando
+                        na
+                        maionese mesmo sóbrio</div>
+                    <div class="custom-option" data-value="Acredito na Ciência">Acredito na Ciência</div>
+                </div>
+                <!-- Select original escondido para manter a funcionalidade -->
+                <select id="signo" class="hidden-select">
+                    <option value="" disabled selected>Escolha seu signo</option>
+                    <option>Áries - com raiva de tudo até do almoço</option>
+                    <option>Touro - querendo comer o vizinho</option>
+                    <option>Gêmeos - brigando consigo mesmo no zap</option>
+                    <option>Câncer - chorando porque o Wi-Fi caiu</option>
+                    <option>Leão - se acha o rei do pix</option>
+                    <option>Virgem - organizando a desgraça toda</option>
+                    <option>Libra - decidindo se chora ou se dança</option>
+                    <option>Escorpião - pesquisando o ex do crush</option>
+                    <option>Sagitário - sumiu no rolê de novo</option>
+                    <option>Capricórnio - falando que "no meu tempo"</option>
+                    <option>Aquário - achando que entende de política</option>
+                    <option>Peixes - viajando na maionese mesmo sóbrio</option>
+                    <option>Acredito na Ciência</option>
+                </select>
+            </div>
+
+            <button class="btn-primary" onclick="gerarDestino()">Revelar Sorte</button>
+            <button class="btn-secondary" onclick="modoHardcore()">🔥 Ativar Sorte em DOBRO!! 🔥</button>
+
+            <div id="resultado">Seu destino de Sorte vai aparecer aqui...</div>
+
+            <button class="btn-share" onclick="copiarDestino()">📋 Copiar</button>
+            <button class="btn-whatsapp" onclick="compartilharWhatsApp()">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="white">
+                    <path
+                        d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.6 0-67.1-9-96.1-26.2l-6.9-4.1-71.4 18.7 19-69.6-4.5-7.2c-18.6-29.8-28.4-64.2-28.4-100 0-110.2 89.7-199.9 199.9-199.9 53.4 0 103.5 20.8 141.2 58.6 37.7 37.7 58.5 87.8 58.5 141.2-.1 110.2-89.8 199.5-200.3 199.5zm109.8-150.2c-6-3-35.5-17.5-41-19.5-5.5-2-9.5-3-13.5 3s-15.5 19.5-19 23.5c-3.5 4-7 4.5-13 1.5s-25.5-9.4-48.6-30c-18-16-30.1-35.7-33.6-41.7-3.5-6-0.4-9.2 2.6-12.2 2.7-2.7 6-7 9-10.5 3-3.5 4-6 6-10s2-7.5-1-10.5-13.5-32.5-18.5-44.5c-4.9-11.7-9.9-10.1-13.5-10.3-3.5-0.2-7.5-0.2-11.5-0.2s-10.5 1.5-16 7.5c-5.5 6-21 20.5-21 50s21.5 58 24.5 62c3 4 42.2 64.5 102.3 90.5 14.3 6.2 25.5 9.9 34.2 12.7 14.4 4.6 27.5 4 37.9 2.4 11.6-1.7 35.5-14.5 40.5-28.5s5-26 3.5-28.5c-1.4-2.7-5.4-4.2-11.4-7.2z" />
+                </svg>
+                Mandar pro grupo no Zap
+            </button>
+
+            <div class="ranking-container">
+                <button class="ranking-btn" onclick="mostrarMensagemPreguica()">Top 10 desgraças mais
+                    engraçadas</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Feito com ódio pelo Mestre 🧙‍♂️ | <a href="https://github.com/matgduarte/" target="_blank"
+                rel="noopener noreferrer" class="hover:text-violet-400 transition-colors">Matgduarte</a></p>
+        <div>
+            <a class="links" href="#">Termos de desrespeito</a> |
+            <a class="links" href="#">Fala com o desgraçado</a> |
+            <a class="links" href="#">Reportar bug (ou azar mesmo)</a>
         </div>
-        <div class="custom-options" id="customOptions">
-          <div class="custom-option" data-value="">Escolha seu signo</div>
-          <div class="custom-option" data-value="Áries - com raiva de tudo até do almoço">Áries - com raiva de tudo até
-            do almoço</div>
-          <div class="custom-option" data-value="Touro - querendo comer o vizinho">Touro - querendo comer o vizinho
-          </div>
-          <div class="custom-option" data-value="Gêmeos - brigando consigo mesmo no zap">Gêmeos - brigando consigo mesmo
-            no zap</div>
-          <div class="custom-option" data-value="Câncer - chorando porque o Wi-Fi caiu">Câncer - chorando porque o Wi-Fi
-            caiu</div>
-          <div class="custom-option" data-value="Leão - se acha o rei do pix">Leão - se acha o rei do pix</div>
-          <div class="custom-option" data-value="Virgem - organizando a desgraça toda">Virgem - organizando a desgraça
-            toda</div>
-          <div class="custom-option" data-value="Libra - decidindo se chora ou se dança">Libra - decidindo se chora ou
-            se dança</div>
-          <div class="custom-option" data-value="Escorpião - pesquisando o ex do crush">Escorpião - pesquisando o ex do
-            crush</div>
-          <div class="custom-option" data-value="Sagitário - sumiu no rolê de novo">Sagitário - sumiu no rolê de novo
-          </div>
-          <div class="custom-option" data-value="Capricórnio - falando que 'no meu tempo'">Capricórnio - falando que "no
-            meu tempo"</div>
-          <div class="custom-option" data-value="Aquário - achando que entende de política">Aquário - achando que
-            entende de política</div>
-          <div class="custom-option" data-value="Peixes - viajando na maionese mesmo sóbrio">Peixes - viajando na
-            maionese mesmo sóbrio</div>
-          <div class="custom-option" data-value="Acredito na Ciência">Acredito na Ciência</div>
-        </div>
-        <!-- Select original escondido para manter a funcionalidade -->
-        <select id="signo" class="hidden-select">
-          <option value="" disabled selected>Escolha seu signo</option>
-          <option>Áries - com raiva de tudo até do almoço</option>
-          <option>Touro - querendo comer o vizinho</option>
-          <option>Gêmeos - brigando consigo mesmo no zap</option>
-          <option>Câncer - chorando porque o Wi-Fi caiu</option>
-          <option>Leão - se acha o rei do pix</option>
-          <option>Virgem - organizando a desgraça toda</option>
-          <option>Libra - decidindo se chora ou se dança</option>
-          <option>Escorpião - pesquisando o ex do crush</option>
-          <option>Sagitário - sumiu no rolê de novo</option>
-          <option>Capricórnio - falando que "no meu tempo"</option>
-          <option>Aquário - achando que entende de política</option>
-          <option>Peixes - viajando na maionese mesmo sóbrio</option>
-          <option>Acredito na Ciência</option>
-        </select>
-      </div>
+    </footer>
 
-      <button class="btn-primary" onclick="gerarDestino()">Revelar Sorte</button>
-      <button class="btn-secondary" onclick="modoHardcore()">🔥 Ativar Sorte em DOBRO!! 🔥</button>
-
-      <div id="resultado">Seu destino de Sorte vai aparecer aqui...</div>
-
-      <button class="btn-share" onclick="copiarDestino()">📋 Copiar</button>
-      <button class="btn-whatsapp" onclick="compartilharWhatsApp()">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="white">
-          <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.6 0-67.1-9-96.1-26.2l-6.9-4.1-71.4 18.7 19-69.6-4.5-7.2c-18.6-29.8-28.4-64.2-28.4-100 0-110.2 89.7-199.9 199.9-199.9 53.4 0 103.5 20.8 141.2 58.6 37.7 37.7 58.5 87.8 58.5 141.2-.1 110.2-89.8 199.5-200.3 199.5zm109.8-150.2c-6-3-35.5-17.5-41-19.5-5.5-2-9.5-3-13.5 3s-15.5 19.5-19 23.5c-3.5 4-7 4.5-13 1.5s-25.5-9.4-48.6-30c-18-16-30.1-35.7-33.6-41.7-3.5-6-0.4-9.2 2.6-12.2 2.7-2.7 6-7 9-10.5 3-3.5 4-6 6-10s2-7.5-1-10.5-13.5-32.5-18.5-44.5c-4.9-11.7-9.9-10.1-13.5-10.3-3.5-0.2-7.5-0.2-11.5-0.2s-10.5 1.5-16 7.5c-5.5 6-21 20.5-21 50s21.5 58 24.5 62c3 4 42.2 64.5 102.3 90.5 14.3 6.2 25.5 9.9 34.2 12.7 14.4 4.6 27.5 4 37.9 2.4 11.6-1.7 35.5-14.5 40.5-28.5s5-26 3.5-28.5c-1.4-2.7-5.4-4.2-11.4-7.2z"/>
-        </svg>
-        Mandar pro grupo no Zap
-      </button>
-
-      <div class="ranking-container">
-        <button class="ranking-btn" onclick="mostrarMensagemPreguica()">Top 10 desgraças mais engraçadas</button>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <p>Feito com ódio pelo Mestre 🧙‍♂️ | <a href="https://github.com/matgduarte/" target="_blank"
-        rel="noopener noreferrer" class="hover:text-violet-400 transition-colors">Matgduarte</a></p>
-    <div>
-      <a class="links" href="#">Termos de desrespeito</a> |
-      <a class="links" href="#">Fala com o desgraçado</a> |
-      <a class="links" href="#">Reportar bug (ou azar mesmo)</a>
+    <div id="mensagemPreguica">
+        <h3>POXA!</h3>
+        <p>O dev tava na dele e não fez o ranking. Mas seu azar com certeza seria top 1.</p>
+        <button onclick="fecharMensagemPreguica()">Tá bom, vazar daqui</button>
     </div>
-  </footer>
 
-  <div id="mensagemPreguica">
-    <h3>POXA!</h3>
-    <p>O dev tava na dele e não fez o ranking. Mas seu azar com certeza seria top 1.</p>
-    <button onclick="fecharMensagemPreguica()">Tá bom, vazar daqui</button>
-  </div>
+    <script>
+        // Código para o select customizado
+        const customSelectTrigger = document.getElementById('customSelectTrigger');
+        const customOptions = document.getElementById('customOptions');
+        const selectedOption = document.getElementById('selectedOption');
+        const signoSelect = document.getElementById('signo');
+        const options = document.querySelectorAll('.custom-option');
 
-  <script>
-    // Código para o select customizado
-    const customSelectTrigger = document.getElementById('customSelectTrigger');
-    const customOptions = document.getElementById('customOptions');
-    const selectedOption = document.getElementById('selectedOption');
-    const signoSelect = document.getElementById('signo');
-    const options = document.querySelectorAll('.custom-option');
-
-    // Abrir/fechar o select customizado
-    customSelectTrigger.addEventListener('click', function () {
-      customOptions.classList.toggle('show');
-      customSelectTrigger.classList.toggle('active');
-    });
-
-    // Selecionar uma opção
-    options.forEach(option => {
-      option.addEventListener('click', function () {
-        const value = this.getAttribute('data-value');
-        const text = this.textContent;
-
-        // Atualizar o select original
-        signoSelect.value = value;
-
-        // Atualizar o texto exibido
-        selectedOption.textContent = text;
-
-        // Marcar a opção como selecionada
-        options.forEach(opt => opt.classList.remove('selected'));
-        this.classList.add('selected');
-
-        // Fechar o select
-        customOptions.classList.remove('show');
-        customSelectTrigger.classList.remove('active');
-      });
-    });
-
-    // Fechar o select ao clicar fora
-    document.addEventListener('click', function (e) {
-      if (!customSelectTrigger.contains(e.target) && !customOptions.contains(e.target)) {
-        customOptions.classList.remove('show');
-        customSelectTrigger.classList.remove('active');
-      }
-    });
-
-    const frases = [
-      "Hoje você vai dar um pt e vomitar no pé do vizinho.",
-      "Seu crush vai te bloquear em todas as redes inclusive na Nubank.",
-      "Mercúrio retrógrado, mas sua vida já é um caos então nem sentiu diferença.",
-      "Você vai gastar o último real num pastel e o fiado vai negar.",
-      "O universo mandou uma notificação de dívida no seu nome.",
-      "Hoje o rolê vai ser foda... só que você não foi convidado.",
-      "Você vai tentar cozinhar e quase incendiar o prédio inteiro.",
-      "Seu signo hoje é compatível com... ficar de mão.",
-      "Cuidado com um gato preto. Ele pode te pedir dinheiro emprestado e não pagar.",
-      "Você vai receber uma notícia boa... de outra pessoa no grupo do zap.",
-      "Hoje você vai cair de boca na frente de quem você mais odeia.",
-      "Seu chefe vai te chamar no sábado às 22h pra 'conversar rapidinho'.",
-      "Você vai achar que tá gravando story mas só tá tirando foto.",
-      "Hoje o busão vai passar e o motorista vai fingir que não te viu.",
-      "Você vai mandar áudio errado pra pessoa errada falando mal dela.",
-      "Seu celular vai morrer bem na hora de passar o pix.",
-      "Você vai comprar 10 coxinhas e só vai comer 3.",
-      "Hoje você vai acordar com a cara inchada e parecer um peixe-boi.",
-      "Sua ex vai postar foto com alguém 10x melhor que você.",
-      "Você vai tentar fazer piada e ninguém vai rir, nem de pena.",
-      "A sua entrega do iFood vai cair na mão do motoboy errado.",
-      "Você vai tropeçar na rua e fazer aquela cena teatral desnecessária.",
-      "Hoje você vai descobrir que seus amigos têm um grupo sem você.",
-      "O último pedaço de pizza que você guardou vai sumir da geladeira.",
-      "Seu celular vai te trair e mandar uma mensagem pra pessoa errada.",
-      "Você vai ser a única pessoa a não receber o brinde do Mc Donald's.",
-      "Você vai descobrir que a pessoa que você mais admira é fã de algo que você odeia.",
-      "Vai tentar fazer uma dieta e comer uma pizza inteira sozinho à noite.",
-      "Seu celular vai te trair e postar algo aleatório no seu stories.",
-      "Você vai ser a única pessoa a não receber o convite para a festa da empresa.",
-      "Vai tentar fazer uma piada e ninguém vai rir.",
-      "Você vai descobrir que a pessoa que você mais gosta está namorando seu amigo.",
-      "Vai tentar fazer um bolo e ele vai afundar no meio.",
-      "Sua mãe vai te ligar no meio da reunião importante pra saber se você já almoçou.",
-      "Você vai pagar a conta e o cartão vai ser negado na frente de todo mundo.",
-      "Hoje você vai ser a única pessoa a não entender a piada do grupo.",
-      "Você vai esquecer a senha de um app importante e o 'esqueci a senha' não vai funcionar.",
-      "Hoje é seu aniversário e ninguém lembrou.",
-      "Você vai abrir o Instagram e vai ver uma foto sua vergonhosa que sua mãe postou.",
-      "Hoje você vai beber pensando que 'só uma' e vai acordar em outro bairro.",
-      "Você vai perder a hora e chegar atrasado, e o chefe vai dizer 'bom dia' com aquele sorriso de sarcasmo.",
-      "Seu rastreador de pedido vai parar de atualizar a 3 dias da sua casa.",
-      "Seu vizinho vai colocar funk às 7 da manhã de um domingo.",
-      "Você vai tentar ajudar um amigo e vai acabar piorando tudo.",
-      "Hoje o café vai passar direto e sua segunda-feira vai começar sem café.",
-      "Você vai contar um segredo e a pessoa que você contou vai contar pra todo mundo.",
-      "Hoje você vai perder o último episódio da série e vai levar spoiler de todo lado.",
-      "Você vai tentar fazer um DIY viu no TikTok e vai sair um monstro.",
-      "Seu par de meia favorito vai desaparecer no meio da lavagem.",
-      "Você vai se inscrever na academia e só vai no primeiro dia.",
-      "Hoje você vai descobrir que a pessoa que você admira é fã da coisa mais cringe do mundo.",
-      "Você vai pegar um arquivo no computador e vai apagar outro importante sem querer.",
-      "Você vai estacionar o carro e vai voltar e encontrar uma multa.",
-      "Seu cachorro vai comer o seu tênis novo e cuspir no velho.",
-      "Hoje você vai descobrir que a promoção do supermercado já acabou.",
-      "Você vai tentar dar um 'bom dia' e a pessoa vai ignorar você.",
-      "Seu plano de cortar o cabelo vai ser cancelado porque o cabeleireiro 'desmarcou'.",
-      "Hoje você vai rir de uma piada que você mesmo não entendeu.",
-      "Você vai comprar uma roupa online e ela não vai servir nem um pouco.",
-      "Seu pneu vai furar no pior lugar possível.",
-      "Hoje você vai perceber que está cantando uma música errada há meses.",
-      "Você vai tentar ser gentil e vão interpretar mal.",
-      "Hoje você vai achar 10 conto mas perder o carregador.",
-      "Mercúrio tá retrógrado, mas sua vida também, então tanto faz.",
-      "Você vai gastar 50 conto em pastel sem perceber.",
-      "O universo mandou um boleto só pra você hoje.",
-      "Hoje o rolê vai ser top... mas você não foi chamado.",
-      "Você vai tentar cozinhar e descobrir um novo tipo de veneno.",
-      "Vai chover só no caminho entre você e o ponto de ônibus.",
-      "Vai ganhar presente, mas não vai gostar.",
-      "Seu cachorro vai te ignorar hoje.",
-      "Um pombo vai quase acertar sua cabeça.",
-      "Vai perder meia no varal misteriosamente.",
-      "O caixa eletrônico vai engolir seu cartão.",
-      "Você vai tropeçar sozinho e fingir que tava correndo.",
-      "Hoje o despertador não vai tocar e você vai culpar o Governo.",
-      "O banco do ônibus vai estar molhado só pro seu lado.",
-      "Seu computador vai reiniciar sem pedir.",
-      "O micro-ondas vai apitar só pra te irritar.",
-      "Você vai bater o dedinho no móvel.",
-      "O ventilador vai cair na sua cabeça... Mais de uma vez.",
-      "O ônibus vai passar lotado só quando você chegar.",
-      "O elevador vai parar no andar errado.",
-      "Seu lanche vai cair no chão com o lado errado pra baixo.",
-      "Você vai esquecer a senha do celular por 5 segundos.",
-      "Hoje o sorvete vai derreter mais rápido que você come.",
-      "Você vai rir sozinho e as pessoas vão te olhar estranho.",
-      "Sua mochila vai ficar mais pesada sem motivo.",
-      "Seu cartão vai passar como inválido na frente de todo mundo... Pobre.",
-      "Hoje o Uber vai cancelar só com você.",
-      "O sinal de pedestre vai mudar só quando você chegar.",
-      "Seu pé vai escorregar em chão seco.",
-      "Você vai pedir troco e receber bala.",
-      "A comida vai esfriar antes de você começar a comer.",
-      "Sua mensagem vai ser deixada no vácuo eterno.",
-      "O corretor automático vai te trair hoje.",
-      "O app de banco vai cair justo agora.",
-      "Seu óculos vai embaçar em momento crítico.",
-      "O mouse vai parar de funcionar do nada.",
-      "Você vai derrubar água no teclado.",
-      "Sua cara vai aparecer em foto sem querer.",
-      "A porta vai bater com vento bem na sua cara.",
-      "Hoje você vai esquecer onde guardou a chave.",
-      "Você vai se perder em caminho conhecido.",
-      "Seu dedo vai ficar preso em saco de batata.",
-      "Sua blusa vai prender na maçaneta.",
-      "Seu relógio vai atrasar só hoje.",
-      "Você vai esquecer o fogão ligado por 3 segundos de terror.",
-      "A nota vai cair do bolso sem você perceber.",
-      "Seu amigo vai te marcar em grupo errado.",
-      "Seu chinelo vai arrebentar no meio da rua.",
-      "O guardanapo vai colar no seu lanche.",
-      "Sua mochila vai abrir sozinha.",
-      "Você vai derrubar shampoo no olho.",
-      "Sua foto vai sair tremida única vez que tirarem.",
-      "Você vai espirrar e derrubar tudo da mesa.",
-      "A máquina de cartão vai falhar só contigo.",
-      "Hoje você vai acordar 5 min antes do despertador e ficar com ódio.",
-      "Seu PC vai fazer barulho de avião sem motivo.",
-      "Você vai pegar sinal de wi-fi e cair antes de carregar a página.",
-      "Você vai morder a língua com força no almoço.",
-      "Seu controle vai sumir misteriosamente no sofá.",
-      "Cuidado com uma pomba hoje.",
-      "Alguém vai te oferecer bala... mas é de hortelã.",
-      "Sua sorte depende do seu 4G.",
-      "Não confie em quem oferece chiclete sem embalagem.",
-      "Um motoboy aleatório sabe mais sobre sua vida que você mesmo.",
-      "Vai perder o sinal de wi-fi no meio de um áudio de 5 minutos.",
-      "Um gato vai te julgar com os olhos.",
-      "Você vai esquecer o guarda-chuva e chover só na sua rua.",
-      "Vai sentir cheiro de churrasco mas não vai ser convidado.",
-      "O ar-condicionado vai gelar só o seu lado errado.",
-      "Seu dedo vai travar no botão de elevador.",
-      "Vai abrir o micro-ondas e esquecer o que colocou.",
-      "Um caminhão vai passar e molhar só você.",
-      "Sua cadeira vai ranger no silêncio da reunião.",
-      "Vai se perder em um mercado pequeno.",
-      "Sua comida vai cair no chão em câmera lenta.",
-      "Vai rir na hora errada de novo.",
-      "Seu bolso vai rasgar e você só vai perceber depois.",
-      "Vai sonhar que está atrasado e acordar atrasado.",
-      "Seu vizinho vai furar a parede às 7 da manhã.",
-      "Vai sentir cheiro de café e não vai ser pra você.",
-      "Seu primo vai pedir a senha da Netflix de novo.",
-      "Hoje alguém vai confundir você com outra pessoa.",
-      "Seu celular vai escorregar da sua mão várias vezes.",
-      "O ônibus vai parar antes do ponto só pra te sacanear.",
-      "Sua sandália vai voar do nada.",
-      "Você vai se sujar de ketchup sem perceber.",
-      "Vai receber ligação de número que só respira.",
-      "Sua mochila vai bater na cara de alguém.",
-      "O alarme de carro vai disparar do nada.",
-      "Seu zíper vai travar na hora errada.",
-      "Hoje você vai dar tchau pra quem não era com você.",
-      "Sua blusa vai enroscar na porta.",
-      "Vai aparecer uma notificação que não existe.",
-      "O carro vai passar na poça só do seu lado.",
-      "Seu copo vai cair sozinho.",
-      "O liquidificador vai gritar na sua cara.",
-      "Sua câmera frontal vai abrir sozinha.",
-      "Vai esquecer de salvar o arquivo mais importante.",
-      "O celular vai tocar só quando você entrar no banheiro.",
-      "Hoje você vai pisar em Lego invisível.",
-      "Sua geladeira vai apitar só pra te irritar.",
-      "O canudo vai entortar e espirrar bebida na sua cara.",
-      "Sua sombra vai parecer suspeita.",
-      "A fila rápida vai ser a mais demorada.",
-      "Você vai achar moeda antiga e não vai valer nada.",
-      "Seu cartão vai pedir senha até no débito.",
-      "Hoje o corretor vai mudar seu nome inteiro.",
-      "Sua chave vai sumir dentro do bolso.",
-      "Você vai dar like sem querer em foto antiga.",
-      "Vai escutar sua própria risada gravada.",
-      "Seu ventilador vai girar só pro lado errado.",
-      "Hoje o semáforo vai fechar só pra você.",
-      "Seu sapato vai soltar o solado no rolê.",
-      "O app vai travar só quando for pagar.",
-      "Sua cara vai aparecer na câmera do mercado sem querer.",
-      "Um cachorro vai te seguir até em casa.",
-      "Hoje o pastel vai vir sem recheio.",
-      "Você vai errar a garfada e acertar a mesa.",
-      "Seu tênis vai fazer barulho de pum no shopping.",
-      "O controle remoto vai sumir sozinho.",
-      "Vai achar cabelo na sua comida.",
-      "Sua carteira vai cair mas alguém vai devolver vazia.",
-      "Hoje o Wi-Fi vai cair e voltar quando você desistir.",
-      "Um anúncio bizarro vai te perseguir na internet.",
-      "Você vai derrubar refrigerante no sofá.",
-      "O cinema vai estar lotado só na sua fileira.",
-      "Sua meia vai furar durante o dia.",
-      "A máquina de cartão vai pedir senha três vezes.",
-      "Você vai esquecer de tirar print importante.",
-      "Seu crachá vai travar na catraca.",
-      "Vai chover dentro do ônibus.",
-      "Sua cama vai ranger no silêncio.",
-      "Você vai tropeçar em escada rolante.",
-      "Hoje o corretor vai mudar \"oi\" pra \"ônibus\".",
-      "Seu microfone vai ligar sozinho.",
-      "Sua garrafa vai vazar dentro da mochila.",
-      "Vai entrar mosquito só no seu quarto.",
-      "Você vai abrir a geladeira e esquecer o que queria.",
-      "Sua pizza vai vir quadrada.",
-      "Você vai tomar choque de tomada.",
-      "Seu notebook vai atualizar do nada.",
-      "O ventilador vai voar sozinho.",
-      "Você vai perder o ônibus.",
-      "Sua colher vai cair dentro da sopa.",
-      "O garçom vai trazer pedido errado só o seu.",
-      "Hoje a luz vai piscar e você vai achar que é apocalipse.",
-      "O teclado vai engolir sua tecla favorita.",
-      "Seu chinelo vai escorregar no banheiro.",
-      "Você vai ouvir alguém chamar e não era contigo.",
-      "Sua lâmpada vai quebrar quando acender.",
-      "Seu celular vai cair na cara na cama.",
-      "Vai errar o nome do professor na prova.",
-      "Seu despertador vai tocar em dia de feriado."
-    ];
-
-    // NOVO ARRAY COM FRASES DE SORTE
-    const frasesDeSorte = [
-      "Hoje o universo conspira a seu favor. Aceite e vá com calma.",
-      "Você vai encontrar uma nota de 50 reais no chão. E de verdade.",
-      "Seu crush vai te dar bom dia espontaneamente. O dia está salvo.",
-      "Aquela vaga que você queria? Sua. Prepare o currículo.",
-      "Você vai descobrir uma série nova e vai maratonar sem culpa.",
-      "O café vai ficar no ponto exato. A segunda-feira está vencida.",
-      "Alguém vai te dar um elogio sincero hoje. Guarde isso.",
-      "Você vai acertar todas as luzes verdes no seu caminho.",
-      "Aquela comida que você ia fazer vai dar super certo.",
-      "Você vai receber um presente inesperado. Merecido."
-    ];
-
-    function digitarTexto(texto, elemento, callback) {
-      elemento.innerText = "";
-      let i = 0;
-      const intervalo = setInterval(() => {
-        if (i < texto.length) {
-          elemento.innerText += texto.charAt(i);
-          i++;
-        } else {
-          clearInterval(intervalo);
-          if (callback) callback();
-        }
-      }, 30);
-    }
-
-    function gerarDestino() {
-      if (!signoSelect.value) {
-        alert("Escolhe um signo aí, órfão!");
-        customSelectTrigger.click();
-        return;
-      }
-
-      const card = document.getElementById('astroCard');
-      card.classList.add('tremer');
-      setTimeout(() => card.classList.remove('tremer'), 500);
-
-      const signo = signoSelect.value;
-      let frase;
-
-      // LÓGICA ATUALIZADA
-      if (signo === "Acredito na Ciência") {
-        frase = frasesDeSorte[Math.floor(Math.random() * frasesDeSorte.length)];
-      } else {
-        frase = frases[Math.floor(Math.random() * frases.length)];
-      }
-
-      const resultado = document.getElementById('resultado');
-      digitarTexto(`${signo}: ${frase}`, resultado);
-    }
-
-    function modoHardcore() {
-      if (!signoSelect.value) {
-        alert("Escolhe um signo aí, órfão!");
-        customSelectTrigger.click();
-        return;
-      }
-
-      const card = document.getElementById('astroCard');
-      card.classList.add('tremer');
-      setTimeout(() => card.classList.remove('tremer'), 500);
-
-      const signo = signoSelect.value;
-      let frase1, frase2;
-
-      // LÓGICA ATUALIZADA
-      if (signo === "Acredito na Ciência") {
-        let idx1 = Math.floor(Math.random() * frasesDeSorte.length);
-        let idx2;
-        do {
-          idx2 = Math.floor(Math.random() * frasesDeSorte.length);
-        } while (idx2 === idx1);
-        frase1 = frasesDeSorte[idx1];
-        frase2 = frasesDeSorte[idx2];
-      } else {
-        let idx1 = Math.floor(Math.random() * frases.length);
-        let idx2;
-        do {
-          idx2 = Math.floor(Math.random() * frases.length);
-        } while (idx2 === idx1);
-        frase1 = frases[idx1];
-        frase2 = frases[idx2];
-      }
-
-      const resultado = document.getElementById('resultado');
-      // Conector diferente para a sorte
-      const conector = (signo === "Acredito na Ciência") ? "\n\nE mais ainda:" : "\n\nE pra piorar:";
-      digitarTexto(`${signo}: ${frase1}${conector} ${frase2}`, resultado);
-    }
-
-    function copiarDestino() {
-      const texto = document.getElementById('resultado').innerText;
-      if (texto && texto !== "Seu destino de Sorte vai aparecer aqui...") {
-        // Adiciona CTA para o site
-        const textoComCTA = `${texto}\n\n🔮 Veja o seu horóscopo do dia em: https://matgduarte.github.io/horoscopo-do-Dia/ 🔮`;
-        
-        navigator.clipboard.writeText(textoComCTA).then(() => {
-          const btn = event.target;
-          const textoOriginal = btn.innerText;
-          btn.innerText = "✅ Copiado a desgraça!";
-          btn.style.background = "linear-gradient(45deg, #32CD32, #00FF00)";
-          setTimeout(() => {
-            btn.innerText = textoOriginal;
-            btn.style.background = "";
-          }, 2000);
+        // Abrir/fechar o select customizado
+        customSelectTrigger.addEventListener('click', function () {
+            customOptions.classList.toggle('show');
+            customSelectTrigger.classList.toggle('active');
         });
-      } else {
-        alert("Gera um destino antes de tentar copiar, animal!");
-      }
-    }
 
-    function compartilharWhatsApp() {
-      const texto = document.getElementById('resultado').innerText;
-      if (texto && texto !== "Seu destino de Sorte vai aparecer aqui...") {
-        // Adiciona CTA para o site
-        const textoComCTA = `${texto}\n\n🔮 Veja o seu horóscopo do dia em: https://matgduarte.github.io/horoscopo-do-Dia/ 🔮`;
-        
-        // Codifica o texto para URL
-        const textoCodificado = encodeURIComponent(textoComCTA);
-        
-        // Abre o WhatsApp com a mensagem pré-preenchida
-        window.open(`https://wa.me/?text=${textoCodificado}`, '_blank');
-      } else {
-        alert("Gera um destino antes de tentar compartilhar, animal!");
-      }
-    }
+        // Selecionar uma opção
+        options.forEach(option => {
+            option.addEventListener('click', function () {
+                const value = this.getAttribute('data-value');
+                const text = this.textContent;
 
-    function mostrarMensagemPreguica() {
-      document.getElementById('mensagemPreguica').style.display = 'block';
-    }
+                // Atualizar o select original
+                signoSelect.value = value;
 
-    function fecharMensagemPreguica() {
-      document.getElementById('mensagemPreguica').style.display = 'none';
-    }
-  </script>
+                // Atualizar o texto exibido
+                selectedOption.textContent = text;
+
+                // Marcar a opção como selecionada
+                options.forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+
+                // Fechar o select
+                customOptions.classList.remove('show');
+                customSelectTrigger.classList.remove('active');
+            });
+        });
+
+        // Fechar o select ao clicar fora
+        document.addEventListener('click', function (e) {
+            if (!customSelectTrigger.contains(e.target) && !customOptions.contains(e.target)) {
+                customOptions.classList.remove('show');
+                customSelectTrigger.classList.remove('active');
+            }
+        });
+
+        const frases = [
+            "Hoje você vai dar um pt e vomitar no pé do vizinho.",
+            "Seu crush vai te bloquear em todas as redes inclusive na Nubank.",
+            "Mercúrio retrógrado, mas sua vida já é um caos então nem sentiu diferença.",
+            "Você vai gastar o último real num pastel e o fiado vai negar.",
+            "O universo mandou uma notificação de dívida no seu nome.",
+            "Hoje o rolê vai ser foda... só que você não foi convidado.",
+            "Você vai tentar cozinhar e quase incendiar o prédio inteiro.",
+            "Seu signo hoje é compatível com... ficar de mão.",
+            "Cuidado com um gato preto. Ele pode te pedir dinheiro emprestado e não pagar.",
+            "Você vai receber uma notícia boa... de outra pessoa no grupo do zap.",
+            "Hoje você vai cair de boca na frente de quem você mais odeia.",
+            "Seu chefe vai te chamar no sábado às 22h pra 'conversar rapidinho'.",
+            "Você vai achar que tá gravando story mas só tá tirando foto.",
+            "Hoje o busão vai passar e o motorista vai fingir que não te viu.",
+            "Você vai mandar áudio errado pra pessoa errada falando mal dela.",
+            "Seu celular vai morrer bem na hora de passar o pix.",
+            "Você vai comprar 10 coxinhas e só vai comer 3.",
+            "Hoje você vai acordar com a cara inchada e parecer um peixe-boi.",
+            "Sua ex vai postar foto com alguém 10x melhor que você.",
+            "Você vai tentar fazer piada e ninguém vai rir, nem de pena.",
+            "A sua entrega do iFood vai cair na mão do motoboy errado.",
+            "Você vai tropeçar na rua e fazer aquela cena teatral desnecessária.",
+            "Hoje você vai descobrir que seus amigos têm um grupo sem você.",
+            "O último pedaço de pizza que você guardou vai sumir da geladeira.",
+            "Seu celular vai te trair e mandar uma mensagem pra pessoa errada.",
+            "Você vai ser a única pessoa a não receber o brinde do Mc Donald's.",
+            "Você vai descobrir que a pessoa que você mais admira é fã de algo que você odeia.",
+            "Vai tentar fazer uma dieta e comer uma pizza inteira sozinho à noite.",
+            "Seu celular vai te trair e postar algo aleatório no seu stories.",
+            "Você vai ser a única pessoa a não receber o convite para a festa da empresa.",
+            "Vai tentar fazer uma piada e ninguém vai rir.",
+            "Você vai descobrir que a pessoa que você mais gosta está namorando seu amigo.",
+            "Vai tentar fazer um bolo e ele vai afundar no meio.",
+            "Sua mãe vai te ligar no meio da reunião importante pra saber se você já almoçou.",
+            "Você vai pagar a conta e o cartão vai ser negado na frente de todo mundo.",
+            "Hoje você vai ser a única pessoa a não entender a piada do grupo.",
+            "Você vai esquecer a senha de um app importante e o 'esqueci a senha' não vai funcionar.",
+            "Hoje é seu aniversário e ninguém lembrou.",
+            "Você vai abrir o Instagram e vai ver uma foto sua vergonhosa que sua mãe postou.",
+            "Hoje você vai beber pensando que 'só uma' e vai acordar em outro bairro.",
+            "Você vai perder a hora e chegar atrasado, e o chefe vai dizer 'bom dia' com aquele sorriso de sarcasmo.",
+            "Seu rastreador de pedido vai parar de atualizar a 3 dias da sua casa.",
+            "Seu vizinho vai colocar funk às 7 da manhã de um domingo.",
+            "Você vai tentar ajudar um amigo e vai acabar piorando tudo.",
+            "Hoje o café vai passar direto e sua segunda-feira vai começar sem café.",
+            "Você vai contar um segredo e a pessoa que você contou vai contar pra todo mundo.",
+            "Hoje você vai perder o último episódio da série e vai levar spoiler de todo lado.",
+            "Você vai tentar fazer um DIY viu no TikTok e vai sair um monstro.",
+            "Seu par de meia favorito vai desaparecer no meio da lavagem.",
+            "Você vai se inscrever na academia e só vai no primeiro dia.",
+            "Hoje você vai descobrir que a pessoa que você admira é fã da coisa mais cringe do mundo.",
+            "Você vai pegar um arquivo no computador e vai apagar outro importante sem querer.",
+            "Você vai estacionar o carro e vai voltar e encontrar uma multa.",
+            "Seu cachorro vai comer o seu tênis novo e cuspir no velho.",
+            "Hoje você vai descobrir que a promoção do supermercado já acabou.",
+            "Você vai tentar dar um 'bom dia' e a pessoa vai ignorar você.",
+            "Seu plano de cortar o cabelo vai ser cancelado porque o cabeleireiro 'desmarcou'.",
+            "Hoje você vai rir de uma piada que você mesmo não entendeu.",
+            "Você vai comprar uma roupa online e ela não vai servir nem um pouco.",
+            "Seu pneu vai furar no pior lugar possível.",
+            "Hoje você vai perceber que está cantando uma música errada há meses.",
+            "Você vai tentar ser gentil e vão interpretar mal.",
+            "Hoje você vai achar 10 conto mas perder o carregador.",
+            "Mercúrio tá retrógrado, mas sua vida também, então tanto faz.",
+            "Você vai gastar 50 conto em pastel sem perceber.",
+            "O universo mandou um boleto só pra você hoje.",
+            "Hoje o rolê vai ser top... mas você não foi chamado.",
+            "Você vai tentar cozinhar e descobrir um novo tipo de veneno.",
+            "Vai chover só no caminho entre você e o ponto de ônibus.",
+            "Vai ganhar presente, mas não vai gostar.",
+            "Seu cachorro vai te ignorar hoje.",
+            "Um pombo vai quase acertar sua cabeça.",
+            "Vai perder meia no varal misteriosamente.",
+            "O caixa eletrônico vai engolir seu cartão.",
+            "Você vai tropeçar sozinho e fingir que tava correndo.",
+            "Hoje o despertador não vai tocar e você vai culpar o Governo.",
+            "O banco do ônibus vai estar molhado só pro seu lado.",
+            "Seu computador vai reiniciar sem pedir.",
+            "O micro-ondas vai apitar só pra te irritar.",
+            "Você vai bater o dedinho no móvel.",
+            "O ventilador vai cair na sua cabeça... Mais de uma vez.",
+            "O ônibus vai passar lotado só quando você chegar.",
+            "O elevador vai parar no andar errado.",
+            "Seu lanche vai cair no chão com o lado errado pra baixo.",
+            "Você vai esquecer a senha do celular por 5 segundos.",
+            "Hoje o sorvete vai derreter mais rápido que você come.",
+            "Você vai rir sozinho e as pessoas vão te olhar estranho.",
+            "Sua mochila vai ficar mais pesada sem motivo.",
+            "Seu cartão vai passar como inválido na frente de todo mundo... Pobre.",
+            "Hoje o Uber vai cancelar só com você.",
+            "O sinal de pedestre vai mudar só quando você chegar.",
+            "Seu pé vai escorregar em chão seco.",
+            "Você vai pedir troco e receber bala.",
+            "A comida vai esfriar antes de você começar a comer.",
+            "Sua mensagem vai ser deixada no vácuo eterno.",
+            "O corretor automático vai te trair hoje.",
+            "O app de banco vai cair justo agora.",
+            "Seu óculos vai embaçar em momento crítico.",
+            "O mouse vai parar de funcionar do nada.",
+            "Você vai derrubar água no teclado.",
+            "Sua cara vai aparecer em foto sem querer.",
+            "A porta vai bater com vento bem na sua cara.",
+            "Hoje você vai esquecer onde guardou a chave.",
+            "Você vai se perder em caminho conhecido.",
+            "Seu dedo vai ficar preso em saco de batata.",
+            "Sua blusa vai prender na maçaneta.",
+            "Seu relógio vai atrasar só hoje.",
+            "Você vai esquecer o fogão ligado por 3 segundos de terror.",
+            "A nota vai cair do bolso sem você perceber.",
+            "Seu amigo vai te marcar em grupo errado.",
+            "Seu chinelo vai arrebentar no meio da rua.",
+            "O guardanapo vai colar no seu lanche.",
+            "Sua mochila vai abrir sozinha.",
+            "Você vai derrubar shampoo no olho.",
+            "Sua foto vai sair tremida única vez que tirarem.",
+            "Você vai espirrar e derrubar tudo da mesa.",
+            "A máquina de cartão vai falhar só contigo.",
+            "Hoje você vai acordar 5 min antes do despertador e ficar com ódio.",
+            "Seu PC vai fazer barulho de avião sem motivo.",
+            "Você vai pegar sinal de wi-fi e cair antes de carregar a página.",
+            "Você vai morder a língua com força no almoço.",
+            "Seu controle vai sumir misteriosamente no sofá.",
+            "Cuidado com uma pomba hoje.",
+            "Alguém vai te oferecer bala... mas é de hortelã.",
+            "Sua sorte depende do seu 4G.",
+            "Não confie em quem oferece chiclete sem embalagem.",
+            "Um motoboy aleatório sabe mais sobre sua vida que você mesmo.",
+            "Vai perder o sinal de wi-fi no meio de um áudio de 5 minutos.",
+            "Um gato vai te julgar com os olhos.",
+            "Você vai esquecer o guarda-chuva e chover só na sua rua.",
+            "Vai sentir cheiro de churrasco mas não vai ser convidado.",
+            "O ar-condicionado vai gelar só o seu lado errado.",
+            "Seu dedo vai travar no botão de elevador.",
+            "Vai abrir o micro-ondas e esquecer o que colocou.",
+            "Um caminhão vai passar e molhar só você.",
+            "Sua cadeira vai ranger no silêncio da reunião.",
+            "Vai se perder em um mercado pequeno.",
+            "Sua comida vai cair no chão em câmera lenta.",
+            "Vai rir na hora errada de novo.",
+            "Seu bolso vai rasgar e você só vai perceber depois.",
+            "Vai sonhar que está atrasado e acordar atrasado.",
+            "Seu vizinho vai furar a parede às 7 da manhã.",
+            "Vai sentir cheiro de café e não vai ser pra você.",
+            "Seu primo vai pedir a senha da Netflix de novo.",
+            "Hoje alguém vai confundir você com outra pessoa.",
+            "Seu celular vai escorregar da sua mão várias vezes.",
+            "O ônibus vai parar antes do ponto só pra te sacanear.",
+            "Sua sandália vai voar do nada.",
+            "Você vai se sujar de ketchup sem perceber.",
+            "Vai receber ligação de número que só respira.",
+            "Sua mochila vai bater na cara de alguém.",
+            "O alarme de carro vai disparar do nada.",
+            "Seu zíper vai travar na hora errada.",
+            "Hoje você vai dar tchau pra quem não era com você.",
+            "Sua blusa vai enroscar na porta.",
+            "Vai aparecer uma notificação que não existe.",
+            "O carro vai passar na poça só do seu lado.",
+            "Seu copo vai cair sozinho.",
+            "O liquidificador vai gritar na sua cara.",
+            "Sua câmera frontal vai abrir sozinha.",
+            "Vai esquecer de salvar o arquivo mais importante.",
+            "O celular vai tocar só quando você entrar no banheiro.",
+            "Hoje você vai pisar em Lego invisível.",
+            "Sua geladeira vai apitar só pra te irritar.",
+            "O canudo vai entortar e espirrar bebida na sua cara.",
+            "Sua sombra vai parecer suspeita.",
+            "A fila rápida vai ser a mais demorada.",
+            "Você vai achar moeda antiga e não vai valer nada.",
+            "Seu cartão vai pedir senha até no débito.",
+            "Hoje o corretor vai mudar seu nome inteiro.",
+            "Sua chave vai sumir dentro do bolso.",
+            "Você vai dar like sem querer em foto antiga.",
+            "Vai escutar sua própria risada gravada.",
+            "Seu ventilador vai girar só pro lado errado.",
+            "Hoje o semáforo vai fechar só pra você.",
+            "Seu sapato vai soltar o solado no rolê.",
+            "O app vai travar só quando for pagar.",
+            "Sua cara vai aparecer na câmera do mercado sem querer.",
+            "Um cachorro vai te seguir até em casa.",
+            "Hoje o pastel vai vir sem recheio.",
+            "Você vai errar a garfada e acertar a mesa.",
+            "Seu tênis vai fazer barulho de pum no shopping.",
+            "O controle remoto vai sumir sozinho.",
+            "Vai achar cabelo na sua comida.",
+            "Sua carteira vai cair mas alguém vai devolver vazia.",
+            "Hoje o Wi-Fi vai cair e voltar quando você desistir.",
+            "Um anúncio bizarro vai te perseguir na internet.",
+            "Você vai derrubar refrigerante no sofá.",
+            "O cinema vai estar lotado só na sua fileira.",
+            "Sua meia vai furar durante o dia.",
+            "A máquina de cartão vai pedir senha três vezes.",
+            "Você vai esquecer de tirar print importante.",
+            "Seu crachá vai travar na catraca.",
+            "Vai chover dentro do ônibus.",
+            "Sua cama vai ranger no silêncio.",
+            "Você vai tropeçar em escada rolante.",
+            "Hoje o corretor vai mudar \"oi\" pra \"ônibus\".",
+            "Seu microfone vai ligar sozinho.",
+            "Sua garrafa vai vazar dentro da mochila.",
+            "Vai entrar mosquito só no seu quarto.",
+            "Você vai abrir a geladeira e esquecer o que queria.",
+            "Sua pizza vai vir quadrada.",
+            "Você vai tomar choque de tomada.",
+            "Seu notebook vai atualizar do nada.",
+            "O ventilador vai voar sozinho.",
+            "Você vai perder o ônibus.",
+            "Sua colher vai cair dentro da sopa.",
+            "O garçom vai trazer pedido errado só o seu.",
+            "Hoje a luz vai piscar e você vai achar que é apocalipse.",
+            "O teclado vai engolir sua tecla favorita.",
+            "Seu chinelo vai escorregar no banheiro.",
+            "Você vai ouvir alguém chamar e não era contigo.",
+            "Sua lâmpada vai quebrar quando acender.",
+            "Seu celular vai cair na cara na cama.",
+            "Vai errar o nome do professor na prova.",
+            "Seu despertador vai tocar em dia de feriado."
+        ];
+
+        // NOVO ARRAY COM FRASES DE SORTE
+        const frasesDeSorte = [
+            "Hoje o universo conspira a seu favor. Aceite e vá com calma.",
+            "Você vai encontrar uma nota de 50 reais no chão. E de verdade.",
+            "Seu crush vai te dar bom dia espontaneamente. O dia está salvo.",
+            "Aquela vaga que você queria? Sua. Prepare o currículo.",
+            "Você vai descobrir uma série nova e vai maratonar sem culpa.",
+            "O café vai ficar no ponto exato. A segunda-feira está vencida.",
+            "Alguém vai te dar um elogio sincero hoje. Guarde isso.",
+            "Você vai acertar todas as luzes verdes no seu caminho.",
+            "Aquela comida que você ia fazer vai dar super certo.",
+            "Você vai receber um presente inesperado. Merecido."
+        ];
+
+        function digitarTexto(texto, elemento, callback) {
+            elemento.innerText = "";
+            let i = 0;
+            const intervalo = setInterval(() => {
+                if (i < texto.length) {
+                    elemento.innerText += texto.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(intervalo);
+                    if (callback) callback();
+                }
+            }, 30);
+        }
+
+        function gerarDestino() {
+            if (!signoSelect.value) {
+                alert("Escolhe um signo aí, órfão!");
+                customSelectTrigger.click();
+                return;
+            }
+
+            const card = document.getElementById('astroCard');
+            card.classList.add('tremer');
+            setTimeout(() => card.classList.remove('tremer'), 500);
+
+            const signo = signoSelect.value;
+            let frase;
+
+            // LÓGICA ATUALIZADA
+            if (signo === "Acredito na Ciência") {
+                frase = frasesDeSorte[Math.floor(Math.random() * frasesDeSorte.length)];
+            } else {
+                frase = frases[Math.floor(Math.random() * frases.length)];
+            }
+
+            const resultado = document.getElementById('resultado');
+            digitarTexto(`${signo}: ${frase}`, resultado);
+        }
+
+        function modoHardcore() {
+            if (!signoSelect.value) {
+                alert("Escolhe um signo aí, órfão!");
+                customSelectTrigger.click();
+                return;
+            }
+
+            const card = document.getElementById('astroCard');
+            card.classList.add('tremer');
+            setTimeout(() => card.classList.remove('tremer'), 500);
+
+            const signo = signoSelect.value;
+            let frase1, frase2;
+
+            // LÓGICA ATUALIZADA
+            if (signo === "Acredito na Ciência") {
+                let idx1 = Math.floor(Math.random() * frasesDeSorte.length);
+                let idx2;
+                do {
+                    idx2 = Math.floor(Math.random() * frasesDeSorte.length);
+                } while (idx2 === idx1);
+                frase1 = frasesDeSorte[idx1];
+                frase2 = frasesDeSorte[idx2];
+            } else {
+                let idx1 = Math.floor(Math.random() * frases.length);
+                let idx2;
+                do {
+                    idx2 = Math.floor(Math.random() * frases.length);
+                } while (idx2 === idx1);
+                frase1 = frases[idx1];
+                frase2 = frases[idx2];
+            }
+
+            const resultado = document.getElementById('resultado');
+            // Conector diferente para a sorte
+            const conector = (signo === "Acredito na Ciência") ? "\n\nE mais ainda:" : "\n\nE pra piorar:";
+            digitarTexto(`${signo}: ${frase1}${conector} ${frase2}`, resultado);
+        }
+
+        function copiarDestino() {
+            const texto = document.getElementById('resultado').innerText;
+            if (texto && texto !== "Seu destino de Sorte vai aparecer aqui...") {
+                // Adiciona CTA para o site
+                const textoComCTA = `${texto}\n\n🔮 Veja o seu horóscopo do dia em: https://matgduarte.github.io/horoscopo-do-Dia/ 🔮`;
+
+                navigator.clipboard.writeText(textoComCTA).then(() => {
+                    const btn = event.target;
+                    const textoOriginal = btn.innerText;
+                    btn.innerText = "✅ Copiado a desgraça!";
+                    btn.style.background = "linear-gradient(45deg, #32CD32, #00FF00)";
+                    setTimeout(() => {
+                        btn.innerText = textoOriginal;
+                        btn.style.background = "";
+                    }, 2000);
+                });
+            } else {
+                alert("Gera um destino antes de tentar copiar, animal!");
+            }
+        }
+
+        function compartilharWhatsApp() {
+            const texto = document.getElementById('resultado').innerText;
+            if (texto && texto !== "Seu destino de Sorte vai aparecer aqui...") {
+                // Adiciona CTA para o site
+                const textoComCTA = `${texto}\n\n🔮 Veja o seu horóscopo do dia em: https://matgduarte.github.io/horoscopo-do-Dia/ 🔮`;
+
+                // Codifica o texto para URL
+                const textoCodificado = encodeURIComponent(textoComCTA);
+
+                // Abre o WhatsApp com a mensagem pré-preenchida
+                window.open(`https://wa.me/?text=${textoCodificado}`, '_blank');
+            } else {
+                alert("Gera um destino antes de tentar compartilhar, animal!");
+            }
+        }
+
+        function mostrarMensagemPreguica() {
+            document.getElementById('mensagemPreguica').style.display = 'block';
+        }
+
+        function fecharMensagemPreguica() {
+            document.getElementById('mensagemPreguica').style.display = 'none';
+        }
+    </script>
 </body>
 
 </html>
